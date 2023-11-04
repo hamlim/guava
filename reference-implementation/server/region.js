@@ -38,7 +38,6 @@ app.get("/", async function(req, res) {
 
 app.post("/", bodyParser.text(), async function(req, res) {
   const {
-    renderToPipeableStream,
     decodeReply,
     decodeReplyFromBusboy,
     decodeAction,
