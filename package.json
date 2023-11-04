@@ -1,0 +1,12 @@
+{
+  "name": "repo-root",
+  "scripts": {
+    "vendor:react-server-dom-esm": "bun ./scripts/vendor.ts react-server-dom-esm"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "bun-types": "^1.0.8"
+  }
+}

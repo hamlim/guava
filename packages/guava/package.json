@@ -1,0 +1,19 @@
+{
+  "name": "guava",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+  },
+  "devDependencies": {
+    "@types/react-dom": "^18.2.7",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "react": "experimental",
+    "react-dom": "experimental",
+    "react-server-dom-esm": "workspace:*"
+  }
+}
