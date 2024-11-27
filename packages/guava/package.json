@@ -4,18 +4,44 @@
   "description": "TODO",
   "homepage": "TODO",
   "author": {
-    "name": "TODO",
-    "email": "TODO"
+    "name": "Matt Hamlin",
+    "email": "matthewjameshamlin@gmail.com"
   },
   "repository": {
     "type": "git",
     "url": "TODO",
     "directory": "packages/guava"
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "xbin": {
+    "guava": "./dist/cli.js"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./store": {
+      "import": "./dist/store.js",
+      "types": "./dist/store.d.ts"
+    },
+    "./middleware": {
+      "import": "./dist/middleware.js",
+      "types": "./dist/middleware.d.ts"
+    },
+    "./fallback": {
+      "import": "./dist/fallback.js",
+      "types": "./dist/fallback.d.ts"
+    },
+    "./handle-request": {
+      "import": "./dist/handle-request.js",
+      "types": "./dist/handle-request.d.ts"
+    },
+    "./cli": {
+      "import": "./dist/cli.js",
+      "types": "./dist/cli.d.ts"
     }
   },
   "type": "module",
@@ -25,6 +51,12 @@
     "hohoro": "0.3.0",
     "@types/bun": "1.1.11",
     "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "fast-glob": "3.3.2"
+  },
+  "peerDependencies": {
+    "waku": "^0.21.6"
   },
   "scripts": {
     "dev": "node --watch-path=./src dev.mjs",

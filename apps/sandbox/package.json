@@ -4,11 +4,14 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "waku dev",
-    "build": "waku build",
+    "generate": "node ./guava.mjs",
+    "generate:watch": "node ./guava.mjs --watch-dir ./src/app",
+    "dev": "bun run generate:watch & waku dev",
+    "build": "bun run generate && waku build",
     "start": "waku start"
   },
   "dependencies": {
+    "guava": "workspace:*",
     "react": "19.0.0-rc-5c56b873-20241107",
     "react-dom": "19.0.0-rc-5c56b873-20241107",
     "react-server-dom-webpack": "19.0.0-rc-5c56b873-20241107",
