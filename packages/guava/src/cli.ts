@@ -9,8 +9,12 @@ function getRouteType(filePath: string): "api" | "page" {
     : "page";
 }
 
-export function collectRoutes(routeFiles: Array<string>): Map<string, Route> {
-  let routeManifest = new Map<string, Route>();
+type PartialRoute = Omit<Route, "mod">;
+
+export function collectRoutes(
+  routeFiles: Array<string>,
+): Map<string, PartialRoute> {
+  let routeManifest = new Map<string, PartialRoute>();
 
   for (let file of routeFiles) {
     let relativeFilePath = file.replace("src/app", "");
@@ -100,6 +104,8 @@ export function collectRoutes(routeFiles: Array<string>): Map<string, Route> {
 export async function generate(options: {
   rootDir: string;
 }): Promise<void> {
+  let destinationDir = pathJoin("./src", "routes.gen.ts");
+
   let routeFiles = await fastGlob(
     pathJoin(options.rootDir, "**/*.{route,page}.{ts,tsx,js,jsx}"),
   );
@@ -107,13 +113,27 @@ export async function generate(options: {
   let routeManifest = collectRoutes(routeFiles);
   console.log("Collected routes, writing manifest...");
 
-  await writeFile(
-    pathJoin("./src", "routes.gen.ts"),
-    `/** Automatically Generated! */
-import type { Route } from "guava/router";
+  let contents = [];
+  contents.push(`/** Automatically Generated! */`);
+  contents.push(`import type { Route } from "guava/router";`);
+  contents.push(``);
+  contents.push(`export let routes: Array<[string, Route]> = [`);
+  for (let [path, route] of routeManifest.entries()) {
+    contents.push(
+      `  [
+    ${JSON.stringify(path)},
+    {
+      ${Object.entries(route)
+        .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+        .join(",\n      ")},
+      mod: () => import("./app${route.filePath.replace(extname(route.filePath), "")}")
+    }
+  ],`,
+    );
+  }
+  contents.push(`];`);
 
-export let routes: Array<[string, Route]> = ${JSON.stringify([...routeManifest.entries()], null, 2)};`,
-  );
+  await writeFile(destinationDir, contents.join("\n"));
 
   console.log("Wrote routes.gen.ts");
 }

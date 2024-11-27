@@ -1,5 +1,5 @@
 import { generate } from "guava/cli";
 
-generate({
+await generate({
   rootDir: "./src/app",
 });

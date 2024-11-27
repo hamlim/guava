@@ -1,22 +1,10 @@
-import { join as pathJoin } from "node:path";
-import { cwd } from "node:process";
 import { getContextData } from "waku/middleware/context";
 import { Slot } from "waku/minimal/client";
 import type { new_defineEntries } from "waku/minimal/server";
+import { unstable_getPlatformObject } from "waku/server";
 import Fallback from "./fallback";
-import {
-  // getStore,
-  type Store,
-  callWithStore,
-} from "./store";
-
-async function load(path: string) {
-  const DO_NOT_BUNDLE = "";
-  let mod = await import(
-    /* @vite-ignore */ `${DO_NOT_BUNDLE}${pathJoin(cwd(), "src", "app", path)}`
-  );
-  return mod.default;
-}
+import type { APIHandler, Page } from "./router";
+import { type Store, callWithStore } from "./store";
 
 type RequestHandler = ReturnType<
   typeof new_defineEntries
@@ -25,11 +13,14 @@ type RequestHandler = ReturnType<
 type Input = Parameters<RequestHandler>[0];
 type Utils = Parameters<RequestHandler>[1];
 
-export async function handleRequest(
-  input: Input,
-  utils: Utils,
-): ReturnType<RequestHandler> {
+type HandlerRes = ReturnType<RequestHandler>;
+
+export async function handleRequest(input: Input, utils: Utils): HandlerRes {
   let data = getContextData() as { guavaStore?: Store };
+  let platformObject = unstable_getPlatformObject();
+  if (typeof platformObject === "object" && "buildOptions" in platformObject) {
+    return new Response("<build-time-request-bail>").body;
+  }
   if (!data.guavaStore) {
     throw new Error(
       "Unable to access the store, did you correctly configure the 'guava/middleware'?!",
@@ -62,7 +53,12 @@ export async function handleRequest(
             ),
           });
         }
-        let Component = await load(route.filePath);
+        if (route.type === "api") {
+          throw new Error(
+            "Attempted to handle request via API Handler and not a Page!",
+          );
+        }
+        let Component = (await route.mod()).default as Page;
         return renderRsc({ App: <Component /> });
       }
       case "function": {
@@ -107,12 +103,12 @@ export async function handleRequest(
         }
         let type = route.type;
         if (type === "api") {
-          let handler = await load(route.filePath);
-          return handler(input.req, {
+          let handler = (await route.mod()).default as APIHandler;
+          return handler(input.req as unknown as Request, {
             params: route.matchedParams,
-          });
+          }) as unknown as HandlerRes;
         }
-        let Component = await load(route.filePath);
+        let Component = (await route.mod()).default as Page;
         return renderHtml({ App: <Component /> }, <Slot id="App" />, "");
       }
       default: {

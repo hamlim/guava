@@ -1,6 +1,6 @@
-import { getStore } from "guava/store";
+import { type Store, getStore } from "guava/store";
 
-export default function Index() {
+export default function Index(/*{ store }: { store: Store }*/) {
   let store = getStore();
   console.log(store.request.url.toString());
   return (

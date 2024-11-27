@@ -2,6 +2,8 @@
 
 TODO
 
+- [ ] Error handling within handle-request + findNearest error handler
+
 ## Getting Started:
 
 ```bash

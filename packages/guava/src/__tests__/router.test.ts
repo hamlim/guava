@@ -1,6 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import { Router } from "../router";
 
+let loader = () => Promise.resolve();
+
 describe("Router", () => {
   it("should match static routes", () => {
     let router = new Router([
@@ -11,6 +13,7 @@ describe("Router", () => {
         params: [],
         type: "page",
         $type: "custom",
+        mod: loader,
       },
     ]);
 
@@ -26,6 +29,7 @@ describe("Router", () => {
       type: "page",
       matchedParams: {},
       $type: "custom",
+      mod: loader,
     });
 
     let requestedURL2 = new URL("/foo/anything", "http://localhost");
@@ -45,6 +49,7 @@ describe("Router", () => {
         filePath: "/foo/[single].page.tsx",
         type: "page",
         $type: "custom",
+        mod: loader,
       },
     ]);
 
@@ -60,6 +65,7 @@ describe("Router", () => {
       type: "page",
       matchedParams: { single: "anything" },
       $type: "custom",
+      mod: loader,
     });
 
     let requestedURL2 = new URL("/foo/anything/else", "http://localhost");
@@ -78,6 +84,7 @@ describe("Router", () => {
         filePath: "/foo/[id]/bar.page.tsx",
         type: "page",
         $type: "custom",
+        mod: loader,
       },
     ]);
 
@@ -93,6 +100,7 @@ describe("Router", () => {
       type: "page",
       matchedParams: { id: "anything" },
       $type: "custom",
+      mod: loader,
     });
   });
 
@@ -105,6 +113,7 @@ describe("Router", () => {
         filePath: "/foo/[...nested].page.tsx",
         type: "page",
         $type: "custom",
+        mod: loader,
       },
     ]);
 
@@ -120,6 +129,7 @@ describe("Router", () => {
       type: "page",
       matchedParams: { nested: ["anything"] },
       $type: "custom",
+      mod: loader,
     });
 
     let requestedURL2 = new URL("/foo/anything/else", "http://localhost");
@@ -134,6 +144,7 @@ describe("Router", () => {
       type: "page",
       matchedParams: { nested: ["anything", "else"] },
       $type: "custom",
+      mod: loader,
     });
   });
 
@@ -146,6 +157,7 @@ describe("Router", () => {
         params: [],
         type: "page",
         $type: "not-found",
+        mod: loader,
       },
     ]);
 
@@ -161,6 +173,7 @@ describe("Router", () => {
       filePath: "/@not-found.page.tsx",
       type: "page",
       $type: "not-found",
+      mod: loader,
     });
   });
 
@@ -173,6 +186,7 @@ describe("Router", () => {
         params: [],
         type: "page",
         $type: "not-found",
+        mod: loader,
       },
       {
         routeType: "static",
@@ -181,6 +195,7 @@ describe("Router", () => {
         params: [],
         type: "page",
         $type: "not-found",
+        mod: loader,
       },
       {
         routeType: "static",
@@ -189,6 +204,7 @@ describe("Router", () => {
         params: [],
         type: "page",
         $type: "not-found",
+        mod: loader,
       },
     ]);
 
@@ -204,6 +220,7 @@ describe("Router", () => {
       type: "page",
       $type: "not-found",
       matchedParams: {},
+      mod: loader,
     });
 
     let requestedURL2 = new URL("/foo/blah", "http://localhost");
@@ -218,6 +235,7 @@ describe("Router", () => {
       type: "page",
       $type: "not-found",
       matchedParams: {},
+      mod: loader,
     });
 
     let requestedURL3 = new URL("/something", "http://localhost");
@@ -232,6 +250,7 @@ describe("Router", () => {
       type: "page",
       $type: "not-found",
       matchedParams: {},
+      mod: loader,
     });
   });
 
@@ -287,6 +306,7 @@ describe("Router", () => {
         params: [],
         type: "page",
         $type: "not-found",
+        mod: loader,
       },
       {
         routeType: "static",
@@ -295,6 +315,7 @@ describe("Router", () => {
         params: [],
         type: "page",
         $type: "not-found",
+        mod: loader,
       },
       {
         routeType: "static",
@@ -303,6 +324,7 @@ describe("Router", () => {
         params: [],
         type: "page",
         $type: "not-found",
+        mod: loader,
       },
     ]);
 
@@ -318,6 +340,7 @@ describe("Router", () => {
       type: "page",
       $type: "not-found",
       matchedParams: {},
+      mod: loader,
     });
   });
 });

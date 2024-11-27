@@ -9,7 +9,16 @@ export type Store = {
   routes: RouteManifest;
 };
 
+declare global {
+  var __guava_storage: AsyncLocalStorage<Store>;
+}
+
 export let storage: AsyncLocalStorage<Store> = new AsyncLocalStorage<Store>();
+
+// This kinda sucks - but it seems like waku is duplicating this module across entrypoints
+if (!globalThis.__guava_storage) {
+  globalThis.__guava_storage = storage;
+}
 
 export function makeStore({
   context,
@@ -29,11 +38,11 @@ export function callWithStore<T>(
   providedStore: Store,
   cb: () => Promise<T> | T,
 ): Promise<T> | T {
-  return storage.run(providedStore, cb);
+  return globalThis.__guava_storage.run(providedStore, cb);
 }
 
 export function getStore(): Store {
-  let store = storage.getStore();
+  let store = globalThis.__guava_storage.getStore();
 
   if (!store) {
     throw new Error("Unable to access the store!");

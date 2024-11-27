@@ -1,3 +1,5 @@
+import type { ComponentType } from "react";
+
 /**
  * @typedef {Object} Route
  * @property {string} rawPath
@@ -7,14 +9,32 @@
  * @property {'rsc' | 'route'} type
  */
 
-export type Route = {
-  rawPath: string;
-  routeType: "catch-all" | "dynamic" | "static";
-  params: string[];
-  filePath: string;
-  type: "page" | "api";
-  $type: "custom" | "not-found" | "error";
-};
+export type APIHandler = (
+  requesst: Request,
+  context: { params: MatchedRoute["matchedParams"] },
+) => Promise<Response>;
+
+export type Page = ComponentType;
+
+export type Route =
+  | {
+      rawPath: string;
+      routeType: "catch-all" | "dynamic" | "static";
+      params: string[];
+      filePath: string;
+      type: "page" | "api";
+      $type: "custom" | "not-found" | "error";
+      mod: () => Promise<{ default: APIHandler }>;
+    }
+  | {
+      rawPath: string;
+      routeType: "catch-all" | "dynamic" | "static";
+      params: string[];
+      filePath: string;
+      type: "page";
+      $type: "custom" | "not-found" | "error";
+      mod: () => Promise<{ default: Page }>;
+    };
 
 // A generic router for the application
 // Takes in a "manifest" of registered pages/routes
