@@ -57,8 +57,12 @@ export class Router {
     let path = url.pathname;
 
     let pathChunks = path.split("/").filter(Boolean);
+    console.log("pathChunks", pathChunks);
+    console.log("this.#manifest", this.#manifest);
+    console.log("url", url);
 
     for (const route of this.#manifest) {
+      console.log("route", route);
       let routePathChunks = route.rawPath.split("/").filter(Boolean);
       if (route.routeType === "static") {
         if (route.rawPath === path) {
