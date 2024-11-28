@@ -1,0 +1,25 @@
+{
+  "name": "manual",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "node ./guava.mjs && TODO",
+    "dev": "node ./guava.mjs --watch-dir=./src & vite-node src/server.tsx --config vite-node.config.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "guava": "workspace:*",
+    "hono": "4.6.12",
+    "react": "0.0.0-experimental-7670501b-20241124",
+    "react-dom": "0.0.0-experimental-7670501b-20241124",
+    "react-server-dom-webpack": "0.0.0-experimental-7670501b-20241124",
+    "vite": "6.0.1",
+    "vite-node": "2.1.6"
+  }
+}

@@ -42,6 +42,10 @@
     "./cli": {
       "import": "./dist/cli.js",
       "types": "./dist/cli.d.ts"
+    },
+    "./react-server-vite-plugin": {
+      "import": "./src/react-server-vite-plugin.ts",
+      "types": "./src/react-server-vite-plugin.d.ts"
     }
   },
   "type": "module",
@@ -56,7 +60,8 @@
     "fast-glob": "3.3.2"
   },
   "peerDependencies": {
-    "waku": "^0.21.6"
+    "waku": "^0.21.6",
+    "react-server-dom-webpack": "0.0.0-experimental-7670501b-20241124"
   },
   "scripts": {
     "dev": "node --watch-path=./src dev.mjs",
