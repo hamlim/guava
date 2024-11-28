@@ -27,7 +27,9 @@ export function makeStore({
   context: Context;
   routes: RouteManifest;
 }): Store {
+  console.log("routes", routes);
   let router = new Router(routes);
+  console.log("router", router);
   // @ts-expect-error - TODO - fix url types
   let matchedRoute = router.match(new URL(context.req.raw.url, "http://n"));
 
