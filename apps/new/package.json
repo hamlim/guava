@@ -1,12 +1,13 @@
 {
-  "name": "sandbox",
+  "name": "new",
   "version": "0.0.0",
   "type": "module",
   "private": true,
   "scripts": {
     "generate": "node ./guava.mjs",
     "generate:watch": "node ./guava.mjs --watch-dir ./src/app",
-    "dev": "bun run generate:watch & waku dev",
+    "xdev": "bun run generate:watch & waku dev",
+    "dev": "waku dev",
     "build": "bun run generate && waku build",
     "start": "waku start"
   },

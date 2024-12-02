@@ -1,12 +1,12 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import type { Context } from "hono";
-import { type MatchedRoute, type RouteManifest, Router } from "./router";
+// import { type MatchedRoute, type RouteManifest, Router } from "./router";
 
 export type Store = {
   context: Context;
   request: Request;
-  route: MatchedRoute | undefined;
-  routes: RouteManifest;
+  // route: MatchedRoute | undefined;
+  // routes: RouteManifest;
 };
 
 declare global {
@@ -22,18 +22,22 @@ if (!globalThis.__guava_storage) {
 
 export function makeStore({
   context,
-  routes,
+  // routes,
 }: {
   context: Context;
-  routes: RouteManifest;
+  // routes: RouteManifest;
 }): Store {
-  console.log("routes", routes);
-  let router = new Router(routes);
-  console.log("router", router);
-  // @ts-expect-error - TODO - fix url types
-  let matchedRoute = router.match(new URL(context.req.raw.url, "http://n"));
+  // console.log("routes", routes);
+  // let router = new Router(routes);
+  // console.log("router", router);
+  // -@ts-expect-error - TODO - fix url types
+  // let matchedRoute = router.match(new URL(context.req.raw.url, "http://n"));
 
-  return { context, request: context.req.raw, route: matchedRoute, routes };
+  return {
+    context,
+    request: context.req.raw,
+    // route: matchedRoute, routes
+  };
 }
 
 export function callWithStore<T>(

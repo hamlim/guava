@@ -46,6 +46,10 @@
     "./react-server-vite-plugin": {
       "import": "./src/react-server-vite-plugin.ts",
       "types": "./src/react-server-vite-plugin.d.ts"
+    },
+    "./middleware-next": {
+      "import": "./src/middleware-next.ts",
+      "types": "./src/middleware-next.d.ts"
     }
   },
   "type": "module",
