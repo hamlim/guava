@@ -19,7 +19,7 @@
     "react": "0.0.0-experimental-7670501b-20241124",
     "react-dom": "0.0.0-experimental-7670501b-20241124",
     "react-server-dom-webpack": "0.0.0-experimental-7670501b-20241124",
-    "vite": "6.0.1",
+    "vite": "6.3.6",
     "vite-node": "2.1.6"
   }
 }
