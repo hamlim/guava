@@ -15,7 +15,7 @@
   "dependencies": {
     "@hono/node-server": "^1.13.7",
     "guava": "workspace:*",
-    "hono": "4.6.12",
+    "hono": "4.9.7",
     "react": "0.0.0-experimental-7670501b-20241124",
     "react-dom": "0.0.0-experimental-7670501b-20241124",
     "react-server-dom-webpack": "0.0.0-experimental-7670501b-20241124",
